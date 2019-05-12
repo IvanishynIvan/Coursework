@@ -3,59 +3,127 @@
 using namespace std;
 
 List::List() : Head(NULL), Tail(NULL), size(0) {}
-List::~List() {}
-
-//void Insert(Trial* elem, int x)
+List::~List()
+{
+	Delete();
+}
 
 int List::Count()
 {
-	return size;                             //Возвращаем число элементов списка
+	return size;    //РџРѕРІРµСЂС‚Р°С”РјРѕ С‡РёСЃР»Рѕ РµР»РµРјРµРЅС‚С–РІ СЃРїРёСЃРєСѓ
 }
 
-void List::Insert(Trial* elem)
+void List::Insert(Trial* elem) 
 {
-	size++;                                            //При каждом добавлении элемента увеличиваем число элементов в списке
-	Node  *temp = new Node;                            //Выделение памяти для нового элемента списка
-	temp->Next = Head; 									//Замыкание контура. Последний элемент - это начало списка
-	temp->info = elem;                                       //Записываем в выделенную ячейку памяти значение x
+	size++;      //РџСЂРё РєРѕР¶РЅРѕРјСѓ РґРѕРґР°РІР°РЅРЅС– РµР»РµРјРµРЅС‚Р° Р·Р±С–Р»СЊС€СѓС”РјРѕ С‡РёСЃР»Рѕ РµР»РµРјРµРЅС‚С–РІ РІ СЃРїРёСЃРєСѓ
+	Node  *temp = new Node;    //Р’РёРґС–Р»РµРЅРЅСЏ РїР°Рј'СЏС‚С– РґР»СЏ РЅРѕРІРѕРіРѕ РµР»РµРјРµРЅС‚Р° СЃРїРёСЃРєСѓ
+	temp->Next = Head;		//Р—Р°РјРёРєР°РЅРЅСЏ РєРѕРЅС‚СѓСЂСѓ.РћСЃС‚Р°РЅРЅС–Р№ РµР»РµРјРµРЅС‚ - С†Рµ РїРѕС‡Р°С‚РѕРє СЃРїРёСЃРєСѓ
+	temp->info = elem;      //Р—Р°РїРёСЃСѓС”РјРѕ РІ РІРёРґС–Р»РµРЅСѓ РєРѕРјС–СЂРєСѓ РїР°Рј'СЏС‚С– Р·РЅР°С‡РµРЅРЅСЏ info
 
-	if (Head != NULL)                                   //В том случае если список не пустой
+	if (Head != NULL)		//РЈ С‚РѕРјСѓ РІРёРїР°РґРєСѓ СЏРєС‰Рѕ СЃРїРёСЃРѕРє РЅРµ РїРѕСЂРѕР¶РЅС–Р№
 	{
-		Tail->Next = temp;                                //Запись данных в следующее за последним элементом поле
-		Tail = temp;                                      //Последний активный элемент=только что созданный.
+		Tail->Next = temp;   //Р—Р°РїРёСЃ РґР°РЅРёС… РІ РЅР°СЃС‚СѓРїРЅРѕРјСѓ Р·Р° РѕСЃС‚Р°РЅРЅС–Рј РµР»РµРјРµРЅС‚РѕРј РїРѕР»Рµ
+		Tail = temp;         //РћСЃС‚Р°РЅРЅС–Р№ Р°РєС‚РёРІРЅРёР№ РµР»РµРјРµРЅС‚ = С‰РѕР№РЅРѕ СЃС‚РІРѕСЂРµРЅРёР№
 	}
-	else Head = Tail = temp;                            //Если список пуст то создается первый элемент.
+	else Head = Tail = temp;  //РЇРєС‰Рѕ СЃРїРёСЃРѕРє РїРѕСЂРѕР¶РЅС–Р№ С‚Рѕ СЃС‚РІРѕСЂСЋС”С‚СЊСЃСЏ РїРµСЂС€РёР№ РµР»РµРјРµРЅС‚.
+}
+
+Trial* List::Pop()
+{
+	if (Head != nullptr)
+	{
+		Trial* info = Head->info;
+		Head = Head->Next;
+		return info;
+	}
+	else
+		cout << "The list is empty";
 }
 
 void List::Delete()
 {
 	if (Head != nullptr)
 	{
-		while (size != 0)                        //Пока размерность списка не станет нулевой
+		while (size != 0)                       
 		{
 			Node *temp = Head->Next;
-			delete Head;                           //Освобождаем память от активного элемента
-			Head = temp;                           //Смена адреса начала на адрес следующего элемента
-			size--;                                //Один элемент освобожден. корректируем число элементов
+			delete Head;        //Р—РІС–Р»СЊРЅСЏС”РјРѕ РїР°Рј'СЏС‚СЊ РІС–Рґ Р°РєС‚РёРІРЅРѕРіРѕ РµР»РµРјРµРЅС‚Р°
+			Head = temp;        //Р—РјС–РЅР° Р°РґСЂРµСЃРё РїРѕС‡Р°С‚РєСѓ РЅР° Р°РґСЂРµСЃСѓ РЅР°СЃС‚СѓРїРЅРѕРіРѕ РµР»РµРјРµРЅС‚Р°
+			size--;                                
 		}
 	}
 	else
-		cout << "List is empty";
+		cout << "The list is empty";
 }
 
-void List::Display(int temp)
+void List::Display(int temp) const
 {
-	Node *tempHead = Head;                  //Указываем на голову
-	temp = size;                            //Временная переменная равная числу элементов в списке
+	Node *tempHead = Head;      //Р’РєР°Р·СѓС”РјРѕ РЅР° РіРѕР»РѕРІСѓ
+	temp = size;         //РўРёРјС‡Р°СЃРѕРІР° Р·РјС–РЅРЅР° РґРѕСЂС–РІРЅСЋС” С‡РёСЃР»Сѓ РµР»РµРјРµРЅС‚С–РІ РІ СЃРїРёСЃРєСѓ
 	if (tempHead == nullptr)
-		cout << "List is empty\n";
+		cout << "The list is empty\n";
 	else
-		while (temp != 0)                        //Пока не выполнен признак прохода по всему списку
+		while (temp != 0)    //РџРѕРєР° РЅРµ РІС‹РїРѕР»РЅРµРЅ РїСЂРёР·РЅР°Рє РїСЂРѕС…РѕРґР° РїРѕ РІСЃРµРјСѓ СЃРїРёСЃРєСѓ
 		{
-			std::cout << "List is :\n";
-			cout << tempHead->info << " ";           //Очередной элемент списка на экран
-			tempHead = tempHead->Next;            //Указываем, что нужен следующий элемент
-			temp--;                               //Один элемент считан, значит осталось на один меньше
+			tempHead->info->show();    //Р§РµСЂРіРѕРІРёР№ РµР»РµРјРµРЅС‚ СЃРїРёСЃРєСѓ РЅР° РµРєСЂР°РЅ
+			tempHead = tempHead->Next;   //Р—Р°Р·РЅР°С‡Р°С”РјРѕ, С‰Рѕ РїРѕС‚СЂС–Р±РµРЅ РЅР°СЃС‚СѓРїРЅРёР№ РµР»РµРјРµРЅС‚
+			temp--;                               
 		}
 	}
 
+//СЃРѕСЂС‚РёСЂРѕРІРєР° СЃР»РёСЏРЅРёРµРј
+Node* merge_sort(Node* h, Node** e) {
+	Node* p, *n, *t, *la, *lb;
+	if ((h == NULL) || (h->Next == NULL))
+		return h;
+
+	la = lb = h;
+	p = n = t = NULL;
+	for (Node* i = h; (i != NULL) && (i->Next != NULL); i = i->Next->Next) {
+		lb = la;
+		la = la->Next;
+	}
+	lb->Next = NULL;
+
+	h = merge_sort(h, e);
+	la = merge_sort(la, e);
+
+	while ((h != NULL) || (la != NULL)) {
+		if (la == NULL) {
+			n = h;
+			h = h->Next;
+		}
+		else if (h == NULL) {
+			n = la;
+			la = la->Next;
+		}
+		else if (h->info < la->info) {
+			n = h;
+			h = h->Next;
+		}
+		else {
+			n = la;
+			la = la->Next;
+		}
+
+		if (p == NULL)
+			p = n;
+		else
+			t->Next = n;
+		t = n;
+	}
+	*e = t;
+	return p;
+}
+
+void List::Sort()
+{
+	if ((Tail == NULL) || (Tail->Next == NULL))
+		return;
+
+	Tail->Next = NULL;
+	Head = merge_sort(Head, &Tail);
+	Tail->Next = Head;
+
+	std::cout << "\n";
+}

@@ -1,23 +1,29 @@
 #pragma once
 #include "Trial.h"
+#include "Test.h"
+#include "Exam.h"
 #include <iostream>
 
 struct  Node
 {
-	int x;
 	Trial* info;
 	Node *Next;
 };
 class List
 {
-	Node *Head, *Tail;                //Первый элемент и тот что последний
-	int size;                         //Число элементов в списке
+	Node *Head, *Tail;                //РџРµСЂС€РёР№ РµР»РµРјРµРЅС‚ С– С‚РѕР№ С‰Рѕ РѕСЃС‚Р°РЅРЅС–Р№
+	int size;                         //Р§РёСЃР»Рѕ РµР»РµРјРµРЅС‚С–РІ РІ СЃРїРёСЃРєСѓ
 public:
+
 	List();
 	~List();
-	
+
+	bool isEmpty() const { return Head == nullptr; }
 	void Insert(Trial* elem);
+	Trial* Pop();
 	void Delete();
-	void Display(int size);
-	int Count();                                                  //Прототип функции возвращающей число элементов в списке
+	void Sort();
+	virtual void Display(int size) const;
+	int Count();                //РџСЂРѕС‚РѕС‚РёРї С„СѓРЅРєС†С–С— , СЏРєР° РїРѕРІРµСЂС‚Р°С” С‡РёСЃР»Рѕ РµР»РµРјРµРЅС‚С–РІ РІ СЃРїРёСЃРєСѓ
 };
+

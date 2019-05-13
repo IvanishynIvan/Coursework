@@ -11,8 +11,9 @@ struct  Node
 };
 class List
 {
-	Node *Head, *Tail;                //РџРµСЂС€РёР№ РµР»РµРјРµРЅС‚ С– С‚РѕР№ С‰Рѕ РѕСЃС‚Р°РЅРЅС–Р№
-	int size;                         //Р§РёСЃР»Рѕ РµР»РµРјРµРЅС‚С–РІ РІ СЃРїРёСЃРєСѓ
+private:
+	Node *Head, *Tail;                //Перший елемент і той що останній
+	int size;                         //Число елементів в списку
 public:
 
 	List();
@@ -23,7 +24,7 @@ public:
 	Trial* Pop();
 	void Delete();
 	void Sort();
-	virtual void Display(int size) const;
-	int Count();                //РџСЂРѕС‚РѕС‚РёРї С„СѓРЅРєС†С–С— , СЏРєР° РїРѕРІРµСЂС‚Р°С” С‡РёСЃР»Рѕ РµР»РµРјРµРЅС‚С–РІ РІ СЃРїРёСЃРєСѓ
+	void Zapros(int size);
+	virtual void Display(int size , ostream &out) const;
+	int Count();                //Прототип функції , яка повертає число елементів в списку
 };
-

@@ -6,14 +6,17 @@ using namespace std;
 class Exam : public Trial
 {
 private:
-	int minscore;
+	int number_of_sections;
 public:
-	Exam(string n_subject, int n_time, int n_minscore);
+	Exam();
+	Exam(Mark n_mark, string n_subject, string n_venue, string n_topic, int n_time_of_conduction , int n_number_of_sections);
 
-	void Set_Minscore(int n_minscore);
-	int Get_Minscore()const;
+	void Set_Number_of_sections(int n_number_of_sections);
+	int Get_Number_of_sections()const;
 
-	void show() const;
+	ostream& output_obj(ostream &out, Trial* obj) const;
+	istream& input_obj(istream &in, Trial* obj);
+
 	~Exam();
 
 };

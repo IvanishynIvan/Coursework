@@ -10,22 +10,22 @@ List::~List()
 
 int List::Count()
 {
-	return size;    //РџРѕРІРµСЂС‚Р°С”РјРѕ С‡РёСЃР»Рѕ РµР»РµРјРµРЅС‚С–РІ СЃРїРёСЃРєСѓ
+	return size;    //Повертаємо число елементів списку
 }
 
 void List::Insert(Trial* elem) 
 {
-	size++;      //РџСЂРё РєРѕР¶РЅРѕРјСѓ РґРѕРґР°РІР°РЅРЅС– РµР»РµРјРµРЅС‚Р° Р·Р±С–Р»СЊС€СѓС”РјРѕ С‡РёСЃР»Рѕ РµР»РµРјРµРЅС‚С–РІ РІ СЃРїРёСЃРєСѓ
-	Node  *temp = new Node;    //Р’РёРґС–Р»РµРЅРЅСЏ РїР°Рј'СЏС‚С– РґР»СЏ РЅРѕРІРѕРіРѕ РµР»РµРјРµРЅС‚Р° СЃРїРёСЃРєСѓ
-	temp->Next = Head;		//Р—Р°РјРёРєР°РЅРЅСЏ РєРѕРЅС‚СѓСЂСѓ.РћСЃС‚Р°РЅРЅС–Р№ РµР»РµРјРµРЅС‚ - С†Рµ РїРѕС‡Р°С‚РѕРє СЃРїРёСЃРєСѓ
-	temp->info = elem;      //Р—Р°РїРёСЃСѓС”РјРѕ РІ РІРёРґС–Р»РµРЅСѓ РєРѕРјС–СЂРєСѓ РїР°Рј'СЏС‚С– Р·РЅР°С‡РµРЅРЅСЏ info
+	size++;      //При кожному додаванні елемента збільшуємо число елементів в списку
+	Node  *temp = new Node;    //Виділення пам'яті для нового елемента списку
+	temp->Next = Head;		//Замикання контуру.Останній елемент - це початок списку
+	temp->info = elem;      //Записуємо в виділену комірку пам'яті значення info
 
-	if (Head != NULL)		//РЈ С‚РѕРјСѓ РІРёРїР°РґРєСѓ СЏРєС‰Рѕ СЃРїРёСЃРѕРє РЅРµ РїРѕСЂРѕР¶РЅС–Р№
+	if (Head != NULL)		//У тому випадку якщо список не порожній
 	{
-		Tail->Next = temp;   //Р—Р°РїРёСЃ РґР°РЅРёС… РІ РЅР°СЃС‚СѓРїРЅРѕРјСѓ Р·Р° РѕСЃС‚Р°РЅРЅС–Рј РµР»РµРјРµРЅС‚РѕРј РїРѕР»Рµ
-		Tail = temp;         //РћСЃС‚Р°РЅРЅС–Р№ Р°РєС‚РёРІРЅРёР№ РµР»РµРјРµРЅС‚ = С‰РѕР№РЅРѕ СЃС‚РІРѕСЂРµРЅРёР№
+		Tail->Next = temp;   //Запис даних в наступному за останнім елементом поле
+		Tail = temp;         //Останній активний елемент = щойно створений
 	}
-	else Head = Tail = temp;  //РЇРєС‰Рѕ СЃРїРёСЃРѕРє РїРѕСЂРѕР¶РЅС–Р№ С‚Рѕ СЃС‚РІРѕСЂСЋС”С‚СЊСЃСЏ РїРµСЂС€РёР№ РµР»РµРјРµРЅС‚.
+	else Head = Tail = temp;  //Якщо список порожній то створюється перший елемент.
 }
 
 Trial* List::Pop()
@@ -36,8 +36,10 @@ Trial* List::Pop()
 		Head = Head->Next;
 		return info;
 	}
-	else
+	else {
 		cout << "The list is empty";
+		//return;
+	}
 }
 
 void List::Delete()
@@ -47,8 +49,8 @@ void List::Delete()
 		while (size != 0)                       
 		{
 			Node *temp = Head->Next;
-			delete Head;        //Р—РІС–Р»СЊРЅСЏС”РјРѕ РїР°Рј'СЏС‚СЊ РІС–Рґ Р°РєС‚РёРІРЅРѕРіРѕ РµР»РµРјРµРЅС‚Р°
-			Head = temp;        //Р—РјС–РЅР° Р°РґСЂРµСЃРё РїРѕС‡Р°С‚РєСѓ РЅР° Р°РґСЂРµСЃСѓ РЅР°СЃС‚СѓРїРЅРѕРіРѕ РµР»РµРјРµРЅС‚Р°
+			delete Head;        //Звільняємо пам'ять від активного елемента
+			Head = temp;        //Зміна адреси початку на адресу наступного елемента
 			size--;                                
 		}
 	}
@@ -56,74 +58,89 @@ void List::Delete()
 		cout << "The list is empty";
 }
 
-void List::Display(int temp) const
+void List::Display(int temp, ostream &out) const
 {
-	Node *tempHead = Head;      //Р’РєР°Р·СѓС”РјРѕ РЅР° РіРѕР»РѕРІСѓ
-	temp = size;         //РўРёРјС‡Р°СЃРѕРІР° Р·РјС–РЅРЅР° РґРѕСЂС–РІРЅСЋС” С‡РёСЃР»Сѓ РµР»РµРјРµРЅС‚С–РІ РІ СЃРїРёСЃРєСѓ
+	Node *tempHead = Head;      //Вказуємо на голову
+	temp = size;         //Тимчасова змінна дорівнює числу елементів в списку
 	if (tempHead == nullptr)
 		cout << "The list is empty\n";
 	else
-		while (temp != 0)    //РџРѕРєР° РЅРµ РІС‹РїРѕР»РЅРµРЅ РїСЂРёР·РЅР°Рє РїСЂРѕС…РѕРґР° РїРѕ РІСЃРµРјСѓ СЃРїРёСЃРєСѓ
+		while (temp != 0)    //Пока не выполнен признак прохода по всему списку
 		{
-			tempHead->info->show();    //Р§РµСЂРіРѕРІРёР№ РµР»РµРјРµРЅС‚ СЃРїРёСЃРєСѓ РЅР° РµРєСЂР°РЅ
-			tempHead = tempHead->Next;   //Р—Р°Р·РЅР°С‡Р°С”РјРѕ, С‰Рѕ РїРѕС‚СЂС–Р±РµРЅ РЅР°СЃС‚СѓРїРЅРёР№ РµР»РµРјРµРЅС‚
-			temp--;                               
+			if (Test *cast_ptr = dynamic_cast<Test *>(tempHead->info))//if (typeid(*) == typeid())
+			{
+				out << "Test \n";
+			}
+			else
+			{
+				out << "Exam \n";
+			}
+			tempHead->info->output_obj(out,tempHead->info); //Черговий елемент списку на екран
+			tempHead = tempHead->Next; //Зазначаємо, що потрібен наступний елемент
+			temp--;
 		}
-	}
-
-//СЃРѕСЂС‚РёСЂРѕРІРєР° СЃР»РёСЏРЅРёРµРј
-Node* merge_sort(Node* h, Node** e) {
-	Node* p, *n, *t, *la, *lb;
-	if ((h == NULL) || (h->Next == NULL))
-		return h;
-
-	la = lb = h;
-	p = n = t = NULL;
-	for (Node* i = h; (i != NULL) && (i->Next != NULL); i = i->Next->Next) {
-		lb = la;
-		la = la->Next;
-	}
-	lb->Next = NULL;
-
-	h = merge_sort(h, e);
-	la = merge_sort(la, e);
-
-	while ((h != NULL) || (la != NULL)) {
-		if (la == NULL) {
-			n = h;
-			h = h->Next;
-		}
-		else if (h == NULL) {
-			n = la;
-			la = la->Next;
-		}
-		else if (h->info < la->info) {
-			n = h;
-			h = h->Next;
-		}
-		else {
-			n = la;
-			la = la->Next;
-		}
-
-		if (p == NULL)
-			p = n;
-		else
-			t->Next = n;
-		t = n;
-	}
-	*e = t;
-	return p;
 }
-
+	
 void List::Sort()
 {
-	if ((Tail == NULL) || (Tail->Next == NULL))
-		return;
 
-	Tail->Next = NULL;
-	Head = merge_sort(Head, &Tail);
-	Tail->Next = Head;
+	Node* temp_1 = Head;
+	Node* temp_2;
+	Trial* temp_var;
 
-	std::cout << "\n";
+	for (int i = 0; i < Count() - 1; i++)
+	{
+		temp_2 = temp_1->Next;
+		for (int j = 0; j < Count() - 1; j++)
+		{
+			if (temp_1->info->Get_Subject() < temp_2->info->Get_Subject())
+			{
+				temp_var = temp_2->info;
+				temp_2->info = temp_1->info;
+				temp_1->info = temp_var;
+			}
+			temp_2 = temp_2->Next;
+		}
+		temp_1 = temp_1->Next;
+	}
+	Head = temp_1;
 }
+
+void List::Zapros(int temp)
+{
+	string subject;
+	Node *tempHead = Head;
+
+	temp = size;         //Тимчасова змінна дорівнює числу елементів в списку
+
+	if (tempHead == nullptr) {
+		cout << "The list is empty\n";
+		return;
+	}
+
+	cout << "Input subject - ";
+	cin >> subject;
+
+	if (!cin)
+		throw logic_error("Wrong input\n");
+
+	bool found = false;
+
+	cout << "Topics with the same subject : \n";
+	while (temp != 0)    //Пока не выполнен признак прохода по всему списку
+	{
+		if (tempHead->info->Get_Subject() == subject)
+		{
+			cout << tempHead->info->Get_Topic() << endl;
+			found = true;
+		}
+
+		if (!found)
+			cout << "Not found\n";
+
+		//tempHead->info->output_obj(out); //Черговий елемент списку на екран
+		tempHead = tempHead->Next; //Зазначаємо, що потрібен наступний елемент
+		temp--;
+	}
+}
+

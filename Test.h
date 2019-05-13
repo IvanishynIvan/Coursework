@@ -6,14 +6,23 @@ using namespace std;
 class Test : public Trial
 {
 private:
-	string topic;
+	int number_of_answer_options;
+	string type_of_test;
 public:
-	Test(string n_subject,int n_time, string n_topic);
+	Test();
+	Test(Mark n_mark, string n_subject, string n_venue, string n_topic, int n_time_of_conduction, 
+		int n_number_of_answer_options, string n_type_of_test);
 
-	void Set_Topic(string n_topic);
-	string Get_Topic()const;
+	void Set_Number_of_answer_options(int n_number_of_answer_options);
+	void Set_Type_of_test(string n_type_of_test);
 
-	void show() const;
+	int Get_Number_of_answer_options()const;
+	string Get_Type_of_test()const;
+
+	ostream& output_obj(ostream &out, Trial* obj) const;
+	istream& input_obj(istream &in, Trial* obj);
+
+	//void show() const;
 	~Test();
 
 };
